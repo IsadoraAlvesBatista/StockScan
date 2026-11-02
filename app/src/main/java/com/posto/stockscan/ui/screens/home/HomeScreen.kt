@@ -2,10 +2,13 @@ package com.posto.stockscan.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.AssistChip
@@ -25,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.posto.stockscan.data.db.Role
 import com.posto.stockscan.data.repository.SessionManager
+import com.posto.stockscan.ui.MENU_CARD_MIN_WIDTH
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,22 +52,27 @@ fun HomeScreen(session: SessionManager, onOpenUsers: () -> Unit, onLogout: () ->
             )
         },
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+        val u = user ?: return@Scaffold
+        // Grade adaptável: no celular em pé fica 1 cartão por linha;
+        // na horizontal ou em tablet cabem 2, 3 ou mais, conforme a largura.
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = MENU_CARD_MIN_WIDTH),
+            modifier = Modifier.padding(padding).fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            val u = user ?: return@Column
-            Text("Olá, ${u.name}", style = MaterialTheme.typography.headlineSmall)
-            AssistChip(onClick = {}, label = { Text(u.role.label) })
-
-            MenuCard("Contagem de estoque", "Ler códigos de barras e registrar quantidades", enabledHint = "Disponível no Sprint 3")
-            MenuCard("Produtos", "Consultar e registrar produtos", enabledHint = "Disponível no Sprint 2")
-            MenuCard("Relatório", "Gerar o relatório da contagem", enabledHint = "Disponível no Sprint 4")
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Olá, ${u.name}", style = MaterialTheme.typography.headlineSmall)
+                    AssistChip(onClick = {}, label = { Text(u.role.label) })
+                }
+            }
+            item { MenuCard("Contagem de estoque", "Ler códigos de barras e registrar quantidades", enabledHint = "Disponível no Sprint 3") }
+            item { MenuCard("Produtos", "Consultar e registrar produtos", enabledHint = "Disponível no Sprint 2") }
+            item { MenuCard("Relatório", "Gerar o relatório da contagem", enabledHint = "Disponível no Sprint 4") }
             if (u.role == Role.ADMIN) {
-                MenuCard("Usuários", "Criar e consultar contas de acesso", onClick = onOpenUsers)
+                item { MenuCard("Usuários", "Criar e consultar contas de acesso", onClick = onOpenUsers) }
             }
         }
     }
@@ -78,9 +87,10 @@ private fun MenuCard(title: String, subtitle: String, onClick: (() -> Unit)? = n
             enabledHint?.let { Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline) }
         }
     }
+    val modifier = Modifier.fillMaxWidth()
     if (onClick != null) {
-        Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) { content() }
+        Card(onClick = onClick, modifier = modifier) { content() }
     } else {
-        Card(modifier = Modifier.fillMaxWidth()) { content() }
+        Card(modifier = modifier) { content() }
     }
 }

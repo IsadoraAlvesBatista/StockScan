@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -40,6 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.posto.stockscan.data.db.Role
+import com.posto.stockscan.ui.LIST_MAX_WIDTH
 import com.posto.stockscan.ui.TextInput
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +76,14 @@ fun UsersScreen(vm: UsersViewModel, onBack: () -> Unit) {
         },
         snackbarHost = { SnackbarHost(snackbar) },
     ) { padding ->
-        LazyColumn(Modifier.padding(padding).fillMaxSize()) {
+        LazyColumn(
+            Modifier
+                .padding(padding)
+                .fillMaxSize()
+                .wrapContentWidth(Alignment.CenterHorizontally)
+                .widthIn(max = LIST_MAX_WIDTH)
+                .fillMaxWidth(),
+        ) {
             items(users, key = { it.id }) { user ->
                 ListItem(
                     headlineContent = { Text(user.name) },

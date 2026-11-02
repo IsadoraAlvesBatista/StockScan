@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,9 +36,10 @@ private fun NavHostController.goToClearingBackStack(route: String) {
 fun StockScanNavHost(container: AppContainer) {
     val navController = rememberNavController()
     // Primeiro arranque (sem utilizadores) → criar o Administrador; senão → login.
-    var startRoute by remember { mutableStateOf<String?>(null) }
+    // rememberSaveable: o valor sobrevive à rotação da tela.
+    var startRoute by rememberSaveable { mutableStateOf<String?>(null) }
     LaunchedEffect(Unit) {
-        startRoute = if (container.userRepository.hasAnyUser()) Routes.LOGIN else Routes.SETUP
+        if (startRoute == null) startRoute = if (container.userRepository.hasAnyUser()) Routes.LOGIN else Routes.SETUP
     }
 
     val start = startRoute
