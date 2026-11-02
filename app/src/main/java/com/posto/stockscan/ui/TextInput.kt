@@ -8,14 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import com.posto.stockscan.data.db.Role
 
-val Role.label: String
-    get() = when (this) {
-        Role.ADMIN -> "Administrador"
-        Role.EMPLOYEE -> "Funcionário"
-    }
-
+/** Campo de texto padrão do app (usado em todos os formulários). */
 @Composable
 fun TextInput(
     value: String,

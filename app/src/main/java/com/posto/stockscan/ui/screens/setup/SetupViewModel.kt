@@ -11,16 +11,6 @@ import com.posto.stockscan.data.repository.SessionManager
 import com.posto.stockscan.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
-data class SetupUiState(
-    val name: String = "",
-    val username: String = "",
-    val password: String = "",
-    val confirmation: String = "",
-    val loading: Boolean = false,
-    val error: String? = null,
-    val done: Boolean = false,
-)
-
 /** Primeiro arranque: cria a conta de Administrador (evita senhas padrão de fábrica). */
 class SetupViewModel(
     private val users: UserRepository,

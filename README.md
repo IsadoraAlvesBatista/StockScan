@@ -30,7 +30,7 @@ Proposta completa e backlog: [`docs/BACKLOG.md`](docs/BACKLOG.md).
 
 ```
 app/src/main/java/com/posto/stockscan/
-├── data/db/          # Entidades, DAOs e AppDatabase (Room)
+├── data/db/          # Tabelas (User, Product, CountEntry, Role), DAOs e AppDatabase
 ├── data/repository/  # UserRepository, SessionManager
 ├── domain/           # Regras de validação (sem Android, testáveis)
 ├── security/         # PasswordHasher
