@@ -14,16 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-data class NewUserForm(
-    val name: String = "",
-    val username: String = "",
-    val password: String = "",
-    val confirmation: String = "",
-    val role: Role = Role.EMPLOYEE,
-    val saving: Boolean = false,
-    val error: String? = null,
-)
-
 class UsersViewModel(private val repo: UserRepository) : ViewModel() {
 
     val users: StateFlow<List<User>> =

@@ -10,11 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-sealed interface CreateUserResult {
-    data class Success(val user: User) : CreateUserResult
-    data class Error(val message: String) : CreateUserResult
-}
-
 class UserRepository(private val dao: UserDao) {
 
     suspend fun hasAnyUser(): Boolean = dao.count() > 0

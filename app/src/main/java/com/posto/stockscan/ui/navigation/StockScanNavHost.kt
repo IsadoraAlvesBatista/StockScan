@@ -25,13 +25,6 @@ import com.posto.stockscan.ui.screens.setup.SetupViewModel
 import com.posto.stockscan.ui.screens.users.UsersScreen
 import com.posto.stockscan.ui.screens.users.UsersViewModel
 
-object Routes {
-    const val SETUP = "setup"
-    const val LOGIN = "login"
-    const val HOME = "home"
-    const val USERS = "users"
-}
-
 private fun NavHostController.goToClearingBackStack(route: String) {
     navigate(route) {
         popUpTo(0) { inclusive = true }
