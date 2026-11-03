@@ -13,8 +13,8 @@ android {
         applicationId = "com.posto.stockscan"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0-sprint1"
+        versionCode = 2
+        versionName = "0.2.0-poc-leitor"
     }
 
     buildTypes {
@@ -55,6 +55,13 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+
+    // Leitura de código de barras: CameraX (câmera) + ML Kit (reconhecimento, funciona offline)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.mlkit.vision)
+    implementation(libs.mlkit.barcode.scanning)
 
     debugImplementation(libs.androidx.ui.tooling)
 

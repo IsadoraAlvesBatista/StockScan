@@ -32,7 +32,12 @@ import com.posto.stockscan.ui.MENU_CARD_MIN_WIDTH
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(session: SessionManager, onOpenUsers: () -> Unit, onLogout: () -> Unit) {
+fun HomeScreen(
+    session: SessionManager,
+    onOpenUsers: () -> Unit,
+    onOpenScanner: () -> Unit,
+    onLogout: () -> Unit,
+) {
     val user by session.currentUser.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -68,6 +73,7 @@ fun HomeScreen(session: SessionManager, onOpenUsers: () -> Unit, onLogout: () ->
                     AssistChip(onClick = {}, label = { Text(u.role.label) })
                 }
             }
+            item { MenuCard("Teste do leitor", "Prova de conceito: ler um código de barras com a câmera", onClick = onOpenScanner) }
             item { MenuCard("Contagem de estoque", "Ler códigos de barras e registrar quantidades", enabledHint = "Disponível no Sprint 3") }
             item { MenuCard("Produtos", "Consultar e registrar produtos", enabledHint = "Disponível no Sprint 2") }
             item { MenuCard("Relatório", "Gerar o relatório da contagem", enabledHint = "Disponível no Sprint 4") }

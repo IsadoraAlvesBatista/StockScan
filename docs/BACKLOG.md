@@ -26,6 +26,23 @@ cada sprint e reunião quinzenal com o cliente.
   já criadas para os sprints seguintes. Alterações de esquema serão feitas com
   migrações, sem perder dados.
 
+## Prova de conceito — leitor de código de barras
+
+Tela "Teste do leitor" (acessível pela tela inicial) para validar a US3 antes de
+fechar a proposta:
+
+- **CameraX** mostra a câmera traseira; cada imagem passa pelo **ML Kit Barcode
+  Scanning** (Google), que funciona **sem internet** e é gratuito.
+- Formatos: EAN-13 (padrão no Brasil), EAN-8, UPC-A/E, Code 128, Code 39, ITF, QR Code.
+- Ao ler: bip, mostra o código e procura na tabela `products`
+  ("Produto encontrado" / "Código não cadastrado").
+- Lanterna para locais com pouca luz.
+- Cadastro rápido de teste do código lido (o cadastro completo é o Sprint 2).
+- Deve ser testado em **celular real** (o emulador não tem câmera real).
+
+Critério sugerido para acrescentar à US3: *se o código não puder ser lido, o
+funcionário pode digitá-lo ou procurar o produto pelo nome.*
+
 ## Pendências com o cliente
 
 - [ ] Lista inicial de produtos (nome e código de barras) — necessária para o Sprint 2.

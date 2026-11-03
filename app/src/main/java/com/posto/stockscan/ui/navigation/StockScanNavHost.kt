@@ -20,6 +20,8 @@ import com.posto.stockscan.AppContainer
 import com.posto.stockscan.ui.screens.home.HomeScreen
 import com.posto.stockscan.ui.screens.login.LoginScreen
 import com.posto.stockscan.ui.screens.login.LoginViewModel
+import com.posto.stockscan.ui.screens.scanner.ScannerScreen
+import com.posto.stockscan.ui.screens.scanner.ScannerViewModel
 import com.posto.stockscan.ui.screens.setup.SetupScreen
 import com.posto.stockscan.ui.screens.setup.SetupViewModel
 import com.posto.stockscan.ui.screens.users.UsersScreen
@@ -61,6 +63,7 @@ fun StockScanNavHost(container: AppContainer) {
             HomeScreen(
                 session = container.session,
                 onOpenUsers = { navController.navigate(Routes.USERS) },
+                onOpenScanner = { navController.navigate(Routes.SCANNER) },
                 onLogout = {
                     container.session.logout()
                     navController.goToClearingBackStack(Routes.LOGIN)
@@ -75,6 +78,10 @@ fun StockScanNavHost(container: AppContainer) {
             }
             val vm = viewModel { UsersViewModel(container.userRepository) }
             UsersScreen(vm, onBack = { navController.popBackStack() })
+        }
+        composable(Routes.SCANNER) {
+            val vm = viewModel { ScannerViewModel(container.productRepository) }
+            ScannerScreen(vm, onBack = { navController.popBackStack() })
         }
     }
 }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Câmera para ler códigos de barras (US3). required=false: o app instala mesmo sem câmera. -->
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".StockScanApp"
         android:allowBackup="false"

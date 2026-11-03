@@ -12,6 +12,8 @@ Proposta completa e backlog: [`docs/BACKLOG.md`](docs/BACKLOG.md).
 - [x] Login com usuário e senha (senhas guardadas com hash PBKDF2 + salt)
 - [x] Perfis **Administrador** e **Funcionário**
 - [x] Administrador cria novos usuários
+- [x] Uso na horizontal e em tablets
+- [x] **Prova de conceito do leitor de código de barras** (tela "Teste do leitor")
 - [ ] US2 – Gestão de produtos (Sprint 2)
 - [ ] US3/US4 – Leitura de código de barras e contagem (Sprint 3)
 - [ ] US5 – Relatório (Sprint 4)
