@@ -5,18 +5,17 @@ estoque lendo o código de barras dos produtos com a câmera do celular.
 
 Proposta completa e backlog: [`docs/BACKLOG.md`](docs/BACKLOG.md).
 
-## Estado atual — Sprint 1 (US1)
+## Estado atual
 
-- [x] Base de dados local (Room/SQLite) com usuários, produtos e contagem
-- [x] Primeiro acesso: criação da conta de **Administrador**
-- [x] Login com usuário e senha (senhas guardadas com hash PBKDF2 + salt)
-- [x] Perfis **Administrador** e **Funcionário**
-- [x] Administrador cria novos usuários
-- [x] Uso na horizontal e em tablets
-- [x] **Prova de conceito do leitor de código de barras** (tela "Teste do leitor")
-- [ ] US2 – Gestão de produtos (Sprint 2)
-- [ ] US3/US4 – Leitura de código de barras e contagem (Sprint 3)
-- [ ] US5 – Relatório (Sprint 4)
+Plano da proposta final: 3 sprints, entrega a **15/12/2026**. Detalhe em [`docs/BACKLOG.md`](docs/BACKLOG.md).
+
+- [x] **US01** – Autenticação: primeiro acesso cria o Administrador, login, perfis, criar e desativar utilizadores
+- [x] Base de dados local (Room/SQLite)
+- [x] Uso na vertical/horizontal, tablets e smartphones
+- [x] Protótipo da leitura de códigos de barras (ecrã "Teste do leitor")
+- [ ] **US02** – Gestão de produtos (Sprint 1, até 16/11)
+- [ ] **US03** – Leitura de código de barras completa (Sprint 2)
+- [ ] **US04 / US05** – Contagem e relatório CSV (Sprint 3)
 
 ## Tecnologia
 

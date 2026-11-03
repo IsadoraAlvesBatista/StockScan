@@ -51,7 +51,7 @@ fun LoginScreen(vm: LoginViewModel, onLoggedIn: () -> Unit) {
                 Text("StockScan", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
                 Text("Contagem de estoque", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(16.dp))
-                TextInput(state.username, vm::onUsernameChange, "Usuário", Modifier.fillMaxWidth(), enabled = !state.loading)
+                TextInput(state.username, vm::onUsernameChange, "Utilizador", Modifier.fillMaxWidth(), enabled = !state.loading)
                 TextInput(
                     state.password, vm::onPasswordChange, "Senha", Modifier.fillMaxWidth(),
                     password = true, imeAction = ImeAction.Done, enabled = !state.loading,

@@ -23,4 +23,17 @@ class UserValidatorTest {
         assertNotNull(UserValidator.validate("Maria", "maria", "12345", "12345"))
         assertNotNull(UserValidator.validate("Maria", "maria", "123456", "654321"))
     }
+
+    @Test fun `nao pode desativar a propria conta`() {
+        assertNotNull(UserValidator.deactivationError(targetId = 1, targetIsAdmin = false, currentUserId = 1, activeAdmins = 2))
+    }
+
+    @Test fun `nao pode desativar o ultimo administrador`() {
+        assertNotNull(UserValidator.deactivationError(targetId = 2, targetIsAdmin = true, currentUserId = 1, activeAdmins = 1))
+    }
+
+    @Test fun `pode desativar funcionario ou administrador extra`() {
+        assertNull(UserValidator.deactivationError(targetId = 2, targetIsAdmin = false, currentUserId = 1, activeAdmins = 1))
+        assertNull(UserValidator.deactivationError(targetId = 2, targetIsAdmin = true, currentUserId = 1, activeAdmins = 2))
+    }
 }

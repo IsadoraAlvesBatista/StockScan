@@ -34,14 +34,28 @@ class UserRepository(private val dao: UserDao) {
         UserValidator.validate(name, username, password, confirmation)?.let { return CreateUserResult.Error(it) }
         val normalized = UserValidator.normalizeUsername(username)
         if (dao.findByUsername(normalized) != null) {
-            return CreateUserResult.Error("Já existe um usuário \"$normalized\".")
+            return CreateUserResult.Error("Já existe um utilizador \"$normalized\".")
         }
         val hash = withContext(Dispatchers.Default) { PasswordHasher.hash(password) }
         val user = User(name = name.trim(), username = normalized, passwordHash = hash, role = role)
         return try {
             CreateUserResult.Success(user.copy(id = dao.insert(user)))
         } catch (e: SQLiteConstraintException) {
-            CreateUserResult.Error("Já existe um usuário \"$normalized\".")
+            CreateUserResult.Error("Já existe um utilizador \"$normalized\".")
         }
+    }
+
+    /**
+     * Ativa ou desativa uma conta (US01). Uma conta desativada deixa de poder entrar,
+     * mas o registo continua na base de dados (e o nome nos relatórios antigos).
+     * Devolve a mensagem de erro, ou `null` se correu bem.
+     */
+    suspend fun setActive(user: User, active: Boolean, currentUserId: Long): String? {
+        if (!active) {
+            UserValidator.deactivationError(user.id, user.role == Role.ADMIN, currentUserId, dao.countActiveAdmins())
+                ?.let { return it }
+        }
+        dao.update(user.copy(active = active))
+        return null
     }
 }

@@ -129,7 +129,7 @@ private fun ResultPanel(vm: ScannerViewModel, modifier: Modifier) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             if (r == null) {
-                Text("Procurando código… (lidos nesta sessão: ${vm.readCount})", style = MaterialTheme.typography.bodyMedium)
+                Text("À procura de código… (lidos nesta sessão: ${vm.readCount})", style = MaterialTheme.typography.bodyMedium)
                 return@Column
             }
             Text("Código lido (${r.formatName})", style = MaterialTheme.typography.labelLarge)
@@ -138,7 +138,7 @@ private fun ResultPanel(vm: ScannerViewModel, modifier: Modifier) {
             when {
                 r.searching -> Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
-                    Text("Procurando na base de dados…")
+                    Text("A procurar na base de dados…")
                 }
                 r.product != null -> Text(
                     "✅ Produto encontrado: ${r.product.name}",
@@ -146,13 +146,13 @@ private fun ResultPanel(vm: ScannerViewModel, modifier: Modifier) {
                     style = MaterialTheme.typography.titleMedium,
                 )
                 else -> {
-                    Text("⚠️ Código não cadastrado", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.titleMedium)
+                    Text("⚠️ Código não registado", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.titleMedium)
                     TextInput(
-                        vm.newProductName, vm::onNewProductName, "Nome do produto (cadastro de teste)",
+                        vm.newProductName, vm::onNewProductName, "Nome do produto (registo de teste)",
                         Modifier.fillMaxWidth(), imeAction = ImeAction.Done,
                     )
                     OutlinedButton(onClick = vm::registerScannedProduct, modifier = Modifier.fillMaxWidth()) {
-                        Text("Cadastrar este código")
+                        Text("Registar este código")
                     }
                 }
             }
@@ -169,10 +169,10 @@ private fun PermissionMissing(onRequest: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Para ler códigos de barras, o app precisa de acesso à câmera.", style = MaterialTheme.typography.titleMedium)
-        Button(onClick = onRequest) { Text("Permitir câmera") }
+        Text("Para ler códigos de barras, a aplicação precisa de acesso à câmara.", style = MaterialTheme.typography.titleMedium)
+        Button(onClick = onRequest) { Text("Permitir câmara") }
         Text(
-            "Se recusou com \"Não perguntar novamente\", ative em Configurações → Aplicativos → StockScan → Permissões → Câmera.",
+            "Se recusou com «Não perguntar novamente», ative em Definições → Aplicações → StockScan → Autorizações → Câmara.",
             style = MaterialTheme.typography.bodySmall,
         )
     }

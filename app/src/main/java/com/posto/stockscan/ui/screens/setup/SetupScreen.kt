@@ -54,7 +54,7 @@ fun SetupScreen(vm: SetupViewModel, onDone: () -> Unit) {
                 )
                 val enabled = !s.loading
                 TextInput(s.name, vm::onName, "Nome", Modifier.fillMaxWidth(), enabled = enabled)
-                TextInput(s.username, vm::onUsername, "Usuário", Modifier.fillMaxWidth(), enabled = enabled)
+                TextInput(s.username, vm::onUsername, "Utilizador", Modifier.fillMaxWidth(), enabled = enabled)
                 TextInput(s.password, vm::onPassword, "Senha", Modifier.fillMaxWidth(), password = true, enabled = enabled)
                 TextInput(
                     s.confirmation, vm::onConfirmation, "Confirmar senha", Modifier.fillMaxWidth(),

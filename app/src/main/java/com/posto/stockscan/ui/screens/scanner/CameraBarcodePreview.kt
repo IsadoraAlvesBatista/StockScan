@@ -20,11 +20,11 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 
 /**
- * Mostra a imagem da câmera traseira e chama [onBarcode] cada vez que o ML Kit
+ * Mostra a imagem da câmara traseira e chama [onBarcode] cada vez que o ML Kit
  * encontra um código de barras na imagem.
  *
  * Como funciona:
- *  - CameraX (LifecycleCameraController) liga a câmera e mostra o vídeo num PreviewView;
+ *  - CameraX (LifecycleCameraController) liga a câmara e mostra o vídeo num PreviewView;
  *  - cada imagem (≈30 por segundo) passa pelo MlKitAnalyzer, que usa o leitor do ML Kit;
  *  - o ML Kit corre no próprio celular, sem internet.
  */

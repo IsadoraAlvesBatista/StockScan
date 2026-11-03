@@ -10,12 +10,12 @@ import kotlinx.coroutines.launch
 
 /**
  * Prova de conceito do leitor (base da US3).
- * A câmera lê continuamente, mas depois do primeiro código o resultado fica "congelado"
- * até o usuário tocar em "Ler outro" — assim o mesmo produto não é lido várias vezes.
+ * A câmara lê continuamente, mas depois do primeiro código o resultado fica "congelado"
+ * até o utilizador tocar em "Ler outro" — assim o mesmo produto não é lido várias vezes.
  */
 class ScannerViewModel(private val products: ProductRepository) : ViewModel() {
 
-    /** `null` = câmera à procura de um código. */
+    /** `null` = câmara à procura de um código. */
     var result by mutableStateOf<ScanResult?>(null)
         private set
 
@@ -32,7 +32,7 @@ class ScannerViewModel(private val products: ProductRepository) : ViewModel() {
     var message by mutableStateOf<String?>(null)
         private set
 
-    /** Chamado pela câmera a cada código encontrado. Devolve `true` se o código foi aceito. */
+    /** Chamado pela câmara a cada código encontrado. Devolve `true` se o código foi aceito. */
     fun onBarcodeDetected(code: String, formatName: String): Boolean {
         if (result != null) return false // já há um resultado na tela: ignora
         result = ScanResult(code = code, formatName = formatName)
@@ -58,11 +58,11 @@ class ScannerViewModel(private val products: ProductRepository) : ViewModel() {
 
     fun onNewProductName(value: String) { newProductName = value; message = null }
 
-    /** Cadastro rápido só para testar (o cadastro completo de produtos é o Sprint 2). */
+    /** Registo rápido só para testar (o registo completo de produtos é o Sprint 2). */
     fun registerScannedProduct() {
         val r = result ?: return
         if (newProductName.isBlank()) {
-            message = "Informe o nome do produto."
+            message = "Indique o nome do produto."
             return
         }
         viewModelScope.launch {
@@ -70,9 +70,9 @@ class ScannerViewModel(private val products: ProductRepository) : ViewModel() {
             if (created != null) {
                 result = r.copy(product = created)
                 newProductName = ""
-                message = "Produto cadastrado. Leia o mesmo código de novo para ver que agora é reconhecido."
+                message = "Produto registado. Leia o mesmo código novamente para ver que agora é reconhecido."
             } else {
-                message = "Este código já está cadastrado."
+                message = "Este código já está registado."
             }
         }
     }

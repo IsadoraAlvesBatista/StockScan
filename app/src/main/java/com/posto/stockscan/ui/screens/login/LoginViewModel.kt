@@ -22,7 +22,7 @@ class LoginViewModel(
     fun login() {
         if (state.loading) return
         if (state.username.isBlank() || state.password.isEmpty()) {
-            state = state.copy(error = "Preencha o usuário e a senha.")
+            state = state.copy(error = "Preencha o utilizador e a senha.")
             return
         }
         state = state.copy(loading = true, error = null)
@@ -32,7 +32,7 @@ class LoginViewModel(
                 session.login(user)
                 state.copy(loading = false, password = "", loggedIn = true)
             } else {
-                state.copy(loading = false, password = "", error = "Usuário ou senha inválidos.")
+                state.copy(loading = false, password = "", error = "Utilizador ou senha inválidos.")
             }
         }
     }

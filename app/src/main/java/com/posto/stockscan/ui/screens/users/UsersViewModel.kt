@@ -8,13 +8,25 @@ import androidx.lifecycle.viewModelScope
 import com.posto.stockscan.data.db.Role
 import com.posto.stockscan.data.db.User
 import com.posto.stockscan.data.repository.CreateUserResult
+import com.posto.stockscan.data.repository.SessionManager
 import com.posto.stockscan.data.repository.UserRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class UsersViewModel(private val repo: UserRepository) : ViewModel() {
+class UsersViewModel(
+    private val repo: UserRepository,
+    private val session: SessionManager,
+) : ViewModel() {
+
+    /** Id de quem está com sessão iniciada (não se pode desativar a si próprio). */
+    val currentUserId: Long get() = session.currentUser.value?.id ?: -1
+
+    /** Conta à espera de confirmação para ativar/desativar (`null` = nenhuma). */
+    var pendingToggle by mutableStateOf<User?>(null)
+        private set
+
 
     val users: StateFlow<List<User>> =
         repo.observeUsers().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
@@ -42,10 +54,22 @@ class UsersViewModel(private val repo: UserRepository) : ViewModel() {
             when (val r = repo.createUser(f.name, f.username, f.password, f.confirmation, f.role)) {
                 is CreateUserResult.Success -> {
                     form = null
-                    message = "Usuário \"${r.user.username}\" criado."
+                    message = "Utilizador \"${r.user.username}\" criado."
                 }
                 is CreateUserResult.Error -> form = f.copy(saving = false, error = r.message)
             }
+        }
+    }
+
+    fun askToggle(user: User) { pendingToggle = user }
+    fun cancelToggle() { pendingToggle = null }
+
+    fun confirmToggle() {
+        val user = pendingToggle ?: return
+        pendingToggle = null
+        viewModelScope.launch {
+            val error = repo.setActive(user, !user.active, currentUserId)
+            message = error ?: if (user.active) "Utilizador \"${user.username}\" desativado." else "Utilizador \"${user.username}\" reativado."
         }
     }
 }

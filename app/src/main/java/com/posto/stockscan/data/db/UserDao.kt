@@ -13,6 +13,9 @@ interface UserDao {
     @Query("SELECT COUNT(*) FROM users")
     suspend fun count(): Int
 
+    @Query("SELECT COUNT(*) FROM users WHERE role = 'ADMIN' AND active = 1")
+    suspend fun countActiveAdmins(): Int
+
     @Query("SELECT * FROM users WHERE username = :username LIMIT 1")
     suspend fun findByUsername(username: String): User?
 

@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.posto.stockscan.data.db.Role
+import com.posto.stockscan.data.db.User
 import com.posto.stockscan.ui.LIST_MAX_WIDTH
 import com.posto.stockscan.ui.TextInput
 
@@ -61,7 +62,7 @@ fun UsersScreen(vm: UsersViewModel, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Usuários") },
+                title = { Text("Utilizadores") },
                 navigationIcon = {
                     IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar") }
                 },
@@ -71,7 +72,7 @@ fun UsersScreen(vm: UsersViewModel, onBack: () -> Unit) {
             ExtendedFloatingActionButton(
                 onClick = vm::openForm,
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                text = { Text("Novo usuário") },
+                text = { Text("Novo utilizador") },
             )
         },
         snackbarHost = { SnackbarHost(snackbar) },
@@ -87,8 +88,17 @@ fun UsersScreen(vm: UsersViewModel, onBack: () -> Unit) {
             items(users, key = { it.id }) { user ->
                 ListItem(
                     headlineContent = { Text(user.name) },
-                    supportingContent = { Text("@${user.username}" + if (!user.active) " · inativo" else "") },
-                    trailingContent = { Text(user.role.label, style = MaterialTheme.typography.labelMedium) },
+                    supportingContent = { Text("@${user.username}" + if (!user.active) " · desativado" else "") },
+                    trailingContent = {
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text(user.role.label, style = MaterialTheme.typography.labelMedium)
+                            if (user.id != vm.currentUserId) {
+                                TextButton(onClick = { vm.askToggle(user) }) {
+                                    Text(if (user.active) "Desativar" else "Reativar")
+                                }
+                            }
+                        }
+                    },
                 )
                 HorizontalDivider()
             }
@@ -96,6 +106,7 @@ fun UsersScreen(vm: UsersViewModel, onBack: () -> Unit) {
     }
 
     vm.form?.let { NewUserDialog(it, vm) }
+    vm.pendingToggle?.let { ToggleDialog(it, vm) }
 }
 
 @Composable
@@ -103,11 +114,11 @@ private fun NewUserDialog(f: NewUserForm, vm: UsersViewModel) {
     val enabled = !f.saving
     AlertDialog(
         onDismissRequest = vm::closeForm,
-        title = { Text("Novo usuário") },
+        title = { Text("Novo utilizador") },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 TextInput(f.name, { v -> vm.update { copy(name = v) } }, "Nome", Modifier.fillMaxWidth(), enabled = enabled)
-                TextInput(f.username, { v -> vm.update { copy(username = v) } }, "Usuário", Modifier.fillMaxWidth(), enabled = enabled)
+                TextInput(f.username, { v -> vm.update { copy(username = v) } }, "Utilizador", Modifier.fillMaxWidth(), enabled = enabled)
                 TextInput(f.password, { v -> vm.update { copy(password = v) } }, "Senha", Modifier.fillMaxWidth(), password = true, enabled = enabled)
                 TextInput(
                     f.confirmation, { v -> vm.update { copy(confirmation = v) } }, "Confirmar senha", Modifier.fillMaxWidth(),
@@ -133,7 +144,24 @@ private fun NewUserDialog(f: NewUserForm, vm: UsersViewModel) {
                 f.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
             }
         },
-        confirmButton = { TextButton(onClick = vm::save, enabled = enabled) { Text(if (f.saving) "Salvando…" else "Criar") } },
+        confirmButton = { TextButton(onClick = vm::save, enabled = enabled) { Text(if (f.saving) "A guardar…" else "Criar") } },
         dismissButton = { TextButton(onClick = vm::closeForm, enabled = enabled) { Text("Cancelar") } },
+    )
+}
+
+@Composable
+private fun ToggleDialog(user: User, vm: UsersViewModel) {
+    val deactivate = user.active
+    AlertDialog(
+        onDismissRequest = vm::cancelToggle,
+        title = { Text(if (deactivate) "Desativar utilizador?" else "Reativar utilizador?") },
+        text = {
+            Text(
+                if (deactivate) "${user.name} deixa de poder entrar na aplicação. O nome continua nos relatórios antigos e a conta pode ser reativada mais tarde."
+                else "${user.name} volta a poder entrar na aplicação.",
+            )
+        },
+        confirmButton = { TextButton(onClick = vm::confirmToggle) { Text(if (deactivate) "Desativar" else "Reativar") } },
+        dismissButton = { TextButton(onClick = vm::cancelToggle) { Text("Cancelar") } },
     )
 }

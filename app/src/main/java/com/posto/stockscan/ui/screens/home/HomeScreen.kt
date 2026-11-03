@@ -73,12 +73,12 @@ fun HomeScreen(
                     AssistChip(onClick = {}, label = { Text(u.role.label) })
                 }
             }
-            item { MenuCard("Teste do leitor", "Prova de conceito: ler um código de barras com a câmera", onClick = onOpenScanner) }
-            item { MenuCard("Contagem de estoque", "Ler códigos de barras e registrar quantidades", enabledHint = "Disponível no Sprint 3") }
-            item { MenuCard("Produtos", "Consultar e registrar produtos", enabledHint = "Disponível no Sprint 2") }
-            item { MenuCard("Relatório", "Gerar o relatório da contagem", enabledHint = "Disponível no Sprint 4") }
+            item { MenuCard("Teste do leitor", "Protótipo da leitura de códigos (Sprint 2)", onClick = onOpenScanner) }
+            item { MenuCard("Contagem de estoque", "Ler códigos de barras e registar quantidades", enabledHint = "Sprint 3 (01/12 – 15/12)") }
+            item { MenuCard("Produtos", "Consultar e registar produtos", enabledHint = "Em desenvolvimento — Sprint 1 (até 16/11)") }
+            item { MenuCard("Relatório", "Gerar o relatório da contagem", enabledHint = "Sprint 3 (01/12 – 15/12)") }
             if (u.role == Role.ADMIN) {
-                item { MenuCard("Usuários", "Criar e consultar contas de acesso", onClick = onOpenUsers) }
+                item { MenuCard("Utilizadores", "Criar, consultar e desativar contas de acesso", onClick = onOpenUsers) }
             }
         }
     }

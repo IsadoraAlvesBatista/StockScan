@@ -2,7 +2,7 @@ package com.posto.stockscan.ui.screens.users
 
 import com.posto.stockscan.data.db.Role
 
-/** Dados do formulário "Novo usuário". */
+/** Dados do formulário "Novo utilizador". */
 data class NewUserForm(
     val name: String = "",
     val username: String = "",

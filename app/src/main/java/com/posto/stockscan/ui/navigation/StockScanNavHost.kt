@@ -76,7 +76,7 @@ fun StockScanNavHost(container: AppContainer) {
                 LaunchedEffect(Unit) { navController.popBackStack() }
                 return@composable
             }
-            val vm = viewModel { UsersViewModel(container.userRepository) }
+            val vm = viewModel { UsersViewModel(container.userRepository, container.session) }
             UsersScreen(vm, onBack = { navController.popBackStack() })
         }
         composable(Routes.SCANNER) {
