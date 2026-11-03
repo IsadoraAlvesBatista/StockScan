@@ -21,6 +21,8 @@ repositório.
 
 ## User stories e critérios de aceitação
 
+Ficha completa de cada US (critérios Dado/Quando/Então, tarefas, DoR, DoD): [`user-stories/`](user-stories/README.md).
+
 Legenda: ✅ feito · 🟡 parcial · ⏳ por fazer
 
 ### US01 — Autenticação de utilizadores (Sprint 1) ✅
